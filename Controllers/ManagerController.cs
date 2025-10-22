@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PROGA22025.Data;
 using PROGA22025.Services;
@@ -7,26 +6,26 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class CoordinatorController : Controller
+public class ManagerController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly FileUploadService _fileUploadService;
 
-    public CoordinatorController(ApplicationDbContext context)
+    public ManagerController(ApplicationDbContext context)
     {
         _context = context;
         _fileUploadService = new FileUploadService();
     }
 
-    // GET: View Pending Claims
+    // GET: View Pending Claims (approved by coordinator)
     public async Task<IActionResult> Index()
     {
         try
         {
-            // Get claims where coordinator hasn't reviewed yet
+            // Get claims approved by coordinator but not reviewed by manager
             var pendingClaims = await _context.Claims
                 .Include(c => c.SupportingDocuments)
-                .Where(c => c.CoordinatorApproved == null)
+                .Where(c => c.CoordinatorApproved == true && c.ManagerApproved == null)
                 .OrderBy(c => c.SubmittedDate)
                 .ToListAsync();
 
@@ -40,9 +39,9 @@ public class CoordinatorController : Controller
     }
 
 
-    // POST: Verify (Approve)
+    // POST: Approve
     [HttpPost]
-    public async Task<IActionResult> Verify(int claimId)
+    public async Task<IActionResult> Approve(int claimId)
     {
         try
         {
@@ -53,17 +52,17 @@ public class CoordinatorController : Controller
                 return RedirectToAction("Index");
             }
 
-            if (claim.CoordinatorApproved != null)
+            if (claim.ManagerApproved != null)
             {
                 TempData["ErrorMessage"] = "This claim has already been reviewed.";
                 return RedirectToAction("Index");
             }
 
-            claim.CoordinatorApproved = true;
-            claim.Status = "Pending Manager Review";
+            claim.ManagerApproved = true;
+            claim.Status = "Approved";
 
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = $"Claim #{claimId} verified successfully!";
+            TempData["SuccessMessage"] = $"Claim #{claimId} approved successfully!";
 
             return RedirectToAction("Index");
         }
@@ -87,14 +86,20 @@ public class CoordinatorController : Controller
                 return RedirectToAction("Index");
             }
 
-            if (claim.CoordinatorApproved != null)
+            if (claim.CoordinatorApproved != true)
+            {
+                TempData["ErrorMessage"] = "Claim must be verified by coordinator first.";
+                return RedirectToAction("Index");
+            }
+
+            if (claim.ManagerApproved != null)
             {
                 TempData["ErrorMessage"] = "This claim has already been reviewed.";
                 return RedirectToAction("Index");
             }
 
-            claim.CoordinatorApproved = false;
-            claim.Status = "Rejected by Coordinator";
+            claim.ManagerApproved = false;
+            claim.Status = "Rejected by Manager";
 
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = $"Claim #{claimId} rejected.";
