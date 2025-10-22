@@ -1,0 +1,46 @@
+﻿@using PROGA22025.Models
+@model List<Claims>
+
+<h2>My Claims - @ViewBag.LecturerName</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Hours</th>
+            <th>Rate</th>
+            <th>Total</th>
+            <th>Submitted</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.ClaimId</td>
+                <td>@claim.HoursWorked</td>
+                <td>R@claim.HourlyRate</td>
+                <td>R@claim.Total</td>
+                <td>@claim.SubmittedDate.ToShortDateString()</td>
+                <td>
+                    <strong>@claim.Status</strong>
+
+                    @* Progress Bar *@
+                    <div class="progress" style="height: 20px;">
+                        @{
+                            var progress = 25;
+                            if (claim.CoordinatorApproved == true) progress = 50;
+                            if (claim.ManagerApproved == true) progress = 100;
+                            if (claim.Status == "Rejected") progress = 100;
+                        }
+                        <div class="progress-bar @(claim.Status == "Approved" ? "bg-success" : claim.Status == "Rejected" ? "bg-danger" : "bg-warning")"
+                             style="width: @progress%">
+                            @progress%
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
