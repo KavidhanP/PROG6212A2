@@ -1,0 +1,33 @@
+﻿@using PROGA22025.Models
+@model ClaimViewModel
+
+<h2>Submit Claim - @ViewBag.LecturerName</h2>
+
+<form asp-action="SubmitClaim" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="LecturerId" value="@ViewBag.LecturerId" />
+
+    <div>
+        <label asp-for="HoursWorked"></label>
+        <input asp-for="HoursWorked" class="form-control" />
+        <span asp-validation-for="HoursWorked" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="HourlyRate"></label>
+        <input asp-for="HourlyRate" class="form-control" />
+        <span asp-validation-for="HourlyRate" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Notes"></label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+    </div>
+
+    <div>
+        <label>Upload Documents (PDF, DOCX, XLSX)</label>
+        <input type="file" name="Documents" multiple class="form-control"
+               accept=".pdf,.docx,.xlsx" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit Claim</button>
+</form>
