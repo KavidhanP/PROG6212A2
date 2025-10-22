@@ -1,8 +1,51 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@*
+  @* 
+Bootstrap 5 Components
+Bootstrap Team. (2024).
+Bootstrap 5 Documentation.
+Bootstrap. https://getbootstrap.com/docs/5.0/components/card/
+Accessed: October 22, 2025
+*@
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+      
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">Lecturer Claims System</h1>
+            </div>
+
+      
+            <div class="row g-4">
+             
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm border-0 hover-card">
+                        <div class="card-body text-center p-5">
+                            <div class="mb-3">
+                                <i class="bi bi-person-plus text-primary" style="font-size: 3.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3">Create Lecturer</h5>
+                            <p class="card-text text-muted mb-4">Register a new lecturer profile</p>
+                            <a href="@Url.Action("Create", "Lecturer")" class="btn btn-primary btn-lg">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+</style>

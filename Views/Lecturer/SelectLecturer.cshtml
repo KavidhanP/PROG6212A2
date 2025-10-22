@@ -1,31 +1,67 @@
 ﻿@using PROGA22025.Models
 @model List<Lecturers>
-
+@* 
+Bootstrap 5 Components
+Bootstrap Team. (2024).
+Bootstrap 5 Documentation.
+Bootstrap. https://getbootstrap.com/docs/5.0/components/card/
+Accessed: October 22, 2025
+*@
 <div class="container mt-5">
-    <h2>Select Lecturer</h2>
-    <p>Choose a lecturer to view their claims dashboard</p>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Select Lecturer</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Choose a lecturer to view their claims dashboard</p>
 
-    @if (Model.Count == 0)
-    {
-        <div class="alert alert-info">
-            No lecturers found. <a asp-action="Create" class="btn btn-primary">Create New Lecturer</a>
-        </div>
-    }
-    else
-    {
-        <div class="list-group">
-            @foreach (var lecturer in Model)
-            {
-                <a asp-action="Index" asp-route-lecturerId="@lecturer.LecturerId"
-                   class="list-group-item list-group-item-action">
-                    <h5>@lecturer.Name</h5>
-                    <small>@lecturer.Email</small>
-                </a>
-            }
-        </div>
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
 
-        <div class="mt-3">
-            <a asp-action="Create" class="btn btn-secondary">Create New Lecturer</a>
+                    @if (Model.Count == 0)
+                    {
+                        <div class="alert alert-info">
+                            <h5>No Lecturers Found</h5>
+                            <p>No lecturers have been created yet. Click the button below to create your first lecturer.</p>
+                            <a asp-action="Create" class="btn btn-primary mt-2">
+                                Create New Lecturer
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="list-group mb-3">
+                            @foreach (var lecturer in Model.OrderBy(l => l.Name))
+                            {
+                                <a asp-action="Index" asp-route-lecturerId="@lecturer.LecturerId"
+                                   class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">@lecturer.Name</h5>
+                                        <small class="text-muted">ID: @lecturer.LecturerId</small>
+                                    </div>
+                                    <p class="mb-1">
+                                        <i class="bi bi-envelope"></i> @lecturer.Email
+                                    </p>
+                                    <small class="text-muted">Created: @lecturer.CreatedDate.ToString("dd MMM yyyy")</small>
+                                </a>
+                            }
+                        </div>
+
+                        <div class="d-grid">
+                            <a asp-action="Create" class="btn btn-outline-primary">
+                                Create New Lecturer
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>

@@ -17,6 +17,20 @@ public class ManagerController : Controller
         _fileUploadService = new FileUploadService();
     }
 
+    /* Microsoft. 2024.
+ * Asynchronous programming with async and await
+ * Microsoft Learn
+ * https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/
+ * Accessed: October 20, 2024
+ */
+
+    /*Microsoft Corporation. (2024)
+TempData in ASP.NET Core
+Microsoft Learn
+https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state#tempdata
+Date Accessed: October 20, 2025
+*/
+
     // GET: View Pending Claims (approved by coordinator)
     public async Task<IActionResult> Index()
     {
@@ -42,7 +56,7 @@ public class ManagerController : Controller
     // POST: Approve
     [HttpPost]
     public async Task<IActionResult> Approve(int claimId)
-    {
+    { // Error handling for all claims
         try
         {
             var claim = await _context.Claims.FindAsync(claimId);
@@ -112,11 +126,23 @@ public class ManagerController : Controller
             return RedirectToAction("Index");
         }
     }
-
+    /*
+  * Microsoft Corporation. (2024)
+     Switch expression - C# reference
+     Microsoft Learn
+     https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression
+     Date Accessed: October 20, 2025
+ */
+    /*Mozilla Contributors. (2024)
+      Common MIME types
+      MDN Web Docs
+      https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+      Date Accessed: October 20, 2025
+    */
     // GET: Download Document
     public async Task<IActionResult> DownloadDocument(int documentId)
     {
-        try
+        try // Error handling for document downloads
         {
             var document = await _context.SupportingDocuments.FindAsync(documentId);
 

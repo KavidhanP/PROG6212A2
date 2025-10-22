@@ -4,23 +4,22 @@
 @inject ApplicationDbContext _context
 
 <div class="container">
-    <h2 class="mb-4">Programme Coordinator Dashboard</h2>
+    <h2 class="mb-4">Academic Manager Dashboard</h2>
 
- @* 
+    @* 
 Bootstrap 5 Components
 Bootstrap Team. (2024).
 Bootstrap 5 Documentation.
 Bootstrap: https://getbootstrap.com/docs/5.0/components/buttons/
 Accessed: October 22, 2025
 *@ 
-@* 
+    @* 
 Bootstrap 5 Components
 Bootstrap Team. (2024).
 Bootstrap 5 Documentation.
 Bootstrap: https://getbootstrap.com/docs/5.0/content/tables/
 Accessed: October 22, 2025
 *@
-
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show">
@@ -44,14 +43,13 @@ Accessed: October 22, 2025
                  Pending Claims (@Model.Count)
             </a>
         </li>
-      
     </ul>
 
     @if (Model.Count == 0)
     {
         <div class="alert alert-info">
             <h4>No Pending Claims</h4>
-            <p>All claims have been reviewed. Great job!</p>
+            <p>All claims have been reviewed or are awaiting coordinator verification.</p>
         </div>
     }
     else
@@ -104,11 +102,11 @@ Accessed: October 22, 2025
                                     }
                                 </td>
                                 <td>
-                                    <form asp-action="Verify" method="post" style="display:inline;">
+                                    <form asp-action="Approve" method="post" style="display:inline;">
                                         <input type="hidden" name="claimId" value="@claim.ClaimId" />
                                         <button type="submit" class="btn btn-success btn-sm"
-                                                onclick="return confirm('Verify this claim?')">
-                                             Verify
+                                                onclick="return confirm('Approve this claim?')">
+                                             Approve
                                         </button>
                                     </form>
 

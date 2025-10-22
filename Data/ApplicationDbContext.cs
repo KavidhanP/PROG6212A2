@@ -14,7 +14,19 @@
         public DbSet<Lecturers> Lecturers { get; set; }
         public DbSet<Claims> Claims { get; set; }
         public DbSet<SupportingDocument> SupportingDocuments { get; set; }
+        /*Microsoft Corporation, 2024
+        Keys
+        Microsoft Learn
+        https://learn.microsoft.com/en-us/ef/core/modeling/keys
+        Accessed: 22 October 2025
+        */
 
+        /* Microsoft Corporation, 2024
+           Generated Values
+           Microsoft Learn
+           https://learn.microsoft.com/en-us/ef/core/modeling/generated-properties
+           Accessed: 22 October 2025
+        */
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

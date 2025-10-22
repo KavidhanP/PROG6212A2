@@ -1,12 +1,36 @@
 ﻿@using PROGA22025.Models
+@using PROGA22025.Data
 @model List<Claims>
+@* 
+Bootstrap 5 Components
+Bootstrap Team. (2024).
+Bootstrap 5 Documentation.
+Bootstrap. https://getbootstrap.com/docs/5.0/customize/overview/
+Accessed: October 22, 2025
+*@
 
 <div class="container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    --
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>@ViewBag.LecturerName - Claims Dashboard</h2>
         <a asp-action="SubmitClaim" asp-route-lecturerId="@ViewBag.LecturerId"
            class="btn btn-success btn-lg">
-            Submit New Claim
+             Submit New Claim
         </a>
     </div>
 
@@ -32,6 +56,7 @@
                             <th>Rate</th>
                             <th>Total</th>
                             <th>Submitted</th>
+                            <th>Documents</th>
                             <th>Status</th>
                             <th>Progress</th>
                         </tr>
@@ -46,11 +71,30 @@
                                 <td><strong>R @claim.Total</strong></td>
                                 <td>@claim.SubmittedDate.ToString("dd MMM yyyy")</td>
                                 <td>
+                                    @if (claim.SupportingDocuments.Any())
+                                    {
+                                        <span class="badge bg-secondary">@claim.SupportingDocuments.Count file(s)</span>
+                                        @foreach (var doc in claim.SupportingDocuments)
+                                        {
+                                            <div>
+                                                <a asp-action="DownloadDocument" asp-route-documentId="@doc.DocumentId"
+                                                   class="btn btn-sm btn-outline-primary mt-1">
+                                                     @doc.OriginalFileName
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">None</span>
+                                    }
+                                </td>
+                                <td>
                                     @if (claim.Status == "Approved")
                                     {
                                         <span class="badge bg-success"> Approved</span>
                                     }
-                                    else if (claim.Status == "Rejected")
+                                    else if (claim.Status.Contains("Rejected"))
                                     {
                                         <span class="badge bg-danger"> Rejected</span>
                                     }

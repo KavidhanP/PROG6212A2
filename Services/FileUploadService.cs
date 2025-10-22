@@ -10,9 +10,14 @@
         private const long MaxFileSize = 5 * 1024 * 1024; // 5MB in bytes
         private static readonly string[] AllowedExtensions = { ".pdf", ".docx", ".xlsx" };
 
-        /// <summary>
-        /// Validates and uploads file to wwwroot/uploads folder
-        /// </summary>
+        /*
+         Microsoft Corporation, 2024
+         Upload files in ASP.NET Core
+         Microsoft Learn
+         https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads
+         Accessed: 22 October 2025
+         */
+
         public (bool success, string message, string fileName) UploadFile(IFormFile file)
         {
             try
@@ -67,9 +72,7 @@
             }
         }
 
-        /// <summary>
-        /// Downloads file from wwwroot/uploads folder
-        /// </summary>
+
         public (bool success, string message, byte[] fileData, string originalFileName) DownloadFile(string storedFileName, string originalFileName)
         {
             try
@@ -91,17 +94,13 @@
             }
         }
 
-        /// <summary>
-        /// Gets file extension from filename
-        /// </summary>
+     
         public string GetFileExtension(string fileName)
         {
             return Path.GetExtension(fileName);
         }
 
-        /// <summary>
-        /// Deletes file from uploads folder (optional - for cleanup)
-        /// </summary>
+  
         public bool DeleteFile(string storedFileName)
         {
             try
